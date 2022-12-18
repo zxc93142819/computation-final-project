@@ -1,3 +1,4 @@
+import copy
 from transitions.extensions import GraphMachine
 
 import os
@@ -13,195 +14,73 @@ from utils import send_text_message
 
 load_dotenv()
 
-import requests as rs
+channel_secret = os.environ.get("LINE_CHANNEL_SECRET")
+channel_access_token = os.environ.get("LINE_CHANNEL_ACCESS_TOKEN")
+
+import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import pyimgur
 import message_template
+from urllib.parse import quote
 
-def get_value_now():
-    # get html
-    res = rs.get('https://rate.bot.com.tw/xrt/quote/ltm/JPY')
-    res.encoding = 'utf-8'
-    # get data table
-    soup = BeautifulSoup(res.text, 'lxml')
-    table = soup.find('table', {'class': 'table table-striped table-bordered table-condensed table-hover'})
-    table = table.find_all('tr')
-    # remove table title
-    table = table[2:]
-    # add to dataframe
-    col = ['掛牌日期', '幣別', '現金買入', '現金賣出', '匯率買入', '匯率賣出']
-    data = []
-    for row in table:
-        row_data = []
-        date = row.find('td',{'class':'text-center'}).text
-        currency = row.find('td',{'class':'text-center tablet_hide'}).text
-        cash = row.find_all('td',{'class':'rate-content-cash text-right print_table-cell'})
-        sight = row.find_all('td',{'class':'rate-content-sight text-right print_table-cell'})
-        row_data.append(date)
-        row_data.append(currency)
-        row_data.append(cash[0].text)
-        row_data.append(cash[1].text)
-        row_data.append(sight[0].text)
-        row_data.append(sight[1].text)
-        data.append(row_data)
-    df = pd.DataFrame(data)
-    df.columns = col
-    df['掛牌日期'] = pd.to_datetime(df['掛牌日期'])
-    df.set_index('掛牌日期', inplace=True)
-    # value query
-    output=df.iloc[0]
-    return output
+keyword = ""
+search_imageurl = []
+search_star = []
+search_online = []
+search_website = []
+search_address = []
+search_name = []
+index = 0
+favorite_imageurl = []
+favorite_star = []
+favorite_online = []
+favorite_website = []
+favorite_address = []
+favorite_name = []
+favorite_index = 0
+
+def get_restaurant_now():
+    search_name.clear()
+    search_imageurl.clear()
+    search_star.clear()
+    search_online.clear()
+    search_website.clear()
+    search_address.clear()
+    global index
+    index = 0
+    response = requests.get("https://ifoodie.tw/explore/%E5%8F%B0%E5%8D%97%E5%B8%82/list/" + quote(keyword) + "?sortby=rating&opening=true")
+    print("https://ifoodie.tw/explore/%E5%8F%B0%E5%8D%97%E5%B8%82/list/" + quote(keyword) + "?sortby=rating&opening=true")
+    soup = BeautifulSoup(response.content, "html.parser")
+    cards = soup.find_all('div', {'class': 'jsx-3292609844 restaurant-item track-impression-ga'}, limit=10)
+    for card in cards:
+        search_name.append(card.find("a", {"class": "jsx-3292609844 title-text"}).getText())
+        search_star.append(card.find("div" , {"class" : "jsx-1207467136 text"}).getText())
+        search_online.append(card.find("div", {"class": "jsx-3292609844 info"}).getText()[6:])
+        search_address.append(card.find("div", {"class": "jsx-3292609844 address-row"}).getText())
+        temp_imageurl = card.find("img" , {"alt" : search_name[index]}).get("data-src")
+        if temp_imageurl == None :
+            temp_imageurl = card.find("img" , {"alt" : search_name[index]}).get("src")
+        search_imageurl.append(temp_imageurl)
+        search_website.append("https://ifoodie.tw" + card.find("a", {"class": "jsx-3292609844 click-tracker"}).get("href"))
+        # print(search_name[index])
+        # print(search_star[index])
+        # print(search_online[index])
+        # print(search_address[index])
+        # print(search_imageurl[index])
+        # print(search_website[index])
+        index += 1
 
 def get_url_3month():
-    # get html
-    res = rs.get('https://rate.bot.com.tw/xrt/quote/ltm/JPY')
-    res.encoding = 'utf-8'
-    # get data table
-    soup = BeautifulSoup(res.text, 'lxml')
-    table = soup.find('table', {'class': 'table table-striped table-bordered table-condensed table-hover'})
-    table = table.find_all('tr')
-    # remove table title
-    table = table[2:]
-    # add to dataframe
-    col = ['掛牌日期', '幣別', '現金買入', '現金賣出', '匯率買入', '匯率賣出']
-    data = []
-    for row in table:
-        row_data = []
-        date = row.find('td',{'class':'text-center'}).text
-        currency = row.find('td',{'class':'text-center tablet_hide'}).text
-        cash = row.find_all('td',{'class':'rate-content-cash text-right print_table-cell'})
-        sight = row.find_all('td',{'class':'rate-content-sight text-right print_table-cell'})
-        row_data.append(date)
-        row_data.append(currency)
-        row_data.append(cash[0].text)
-        row_data.append(cash[1].text)
-        row_data.append(sight[0].text)
-        row_data.append(sight[1].text)
-        data.append(row_data)
-    df = pd.DataFrame(data)
-    df.columns = col
-    df['掛牌日期'] = pd.to_datetime(df['掛牌日期'])
-    df.set_index('掛牌日期', inplace=True)
-    # draw the graph
-    plt.figure(figsize=(20,15))
-    plt.rcParams['font.sans-serif']=['Microsoft YaHei']
-    df_pic=df[['現金買入', '現金賣出', '匯率買入', '匯率賣出']]
-    df_pic=df_pic.astype(float)
-    df_pic=df_pic.plot()
-    plt.grid()
-    plt.title('日圓匯率近三月走勢圖',fontsize=16)
-    plt.xlabel('掛牌日期',fontsize=14)
-    plt.ylabel('匯率',fontsize=14)
-    plt.savefig('JPY_df.png', dpi=300)
-    plt.show()
-    # upload to imgur and get url
-    CLIENT_ID = "b4d6470eeacb77a"
-    PATH = "JPY_df.png"
-    im = pyimgur.Imgur(CLIENT_ID)
-    uploaded_image = im.upload_image(PATH, title="upload")
-    return uploaded_image.link
+    return "三個月資訊"
 
 def get_url_2week():
-    # get html
-    res = rs.get('https://rate.bot.com.tw/xrt/quote/ltm/JPY')
-    res.encoding = 'utf-8'
-    # get data table
-    soup = BeautifulSoup(res.text, 'lxml')
-    table = soup.find('table', {'class': 'table table-striped table-bordered table-condensed table-hover'})
-    table = table.find_all('tr')
-    # remove table title
-    table = table[2:]
-    # add to dataframe
-    col = ['掛牌日期', '幣別', '現金買入', '現金賣出', '匯率買入', '匯率賣出']
-    data = []
-    for row in table:
-        row_data = []
-        date = row.find('td',{'class':'text-center'}).text
-        currency = row.find('td',{'class':'text-center tablet_hide'}).text
-        cash = row.find_all('td',{'class':'rate-content-cash text-right print_table-cell'})
-        sight = row.find_all('td',{'class':'rate-content-sight text-right print_table-cell'})
-        row_data.append(date)
-        row_data.append(currency)
-        row_data.append(cash[0].text)
-        row_data.append(cash[1].text)
-        row_data.append(sight[0].text)
-        row_data.append(sight[1].text)
-        data.append(row_data)
-    df = pd.DataFrame(data)
-    df.columns = col
-    df['掛牌日期'] = pd.to_datetime(df['掛牌日期'])
-    df.set_index('掛牌日期', inplace=True)
-    # draw the graph
-    df_pic_week=df[['現金買入', '現金賣出', '匯率買入', '匯率賣出']].iloc[0:14]
-    plt.figure(figsize=(20,15))
-    plt.rcParams['font.sans-serif']=['Microsoft YaHei']
-    df_pic_week=df_pic_week.astype(float)
-    df_pic_week=df_pic_week.plot(marker='o')
-    plt.grid()
-    plt.title('日圓匯率近兩周走勢圖',fontsize=16)
-    plt.xlabel('掛牌日期',fontsize=14)
-    plt.ylabel('匯率',fontsize=14)
-    plt.savefig('JPY_df2.png', dpi=300)
-    plt.show()
-    # upload to imgur and get url
-    CLIENT_ID = "b4d6470eeacb77a"
-    PATH = "JPY_df2.png"
-    im = pyimgur.Imgur(CLIENT_ID)
-    uploaded_image = im.upload_image(PATH, title="upload")
-    return uploaded_image.link
+    return "兩周資訊"
 
 def get_recommend():
-    # get html
-    res = rs.get('https://rate.bot.com.tw/xrt/quote/ltm/JPY')
-    res.encoding = 'utf-8'
-    # get data table
-    soup = BeautifulSoup(res.text, 'lxml')
-    table = soup.find('table', {'class': 'table table-striped table-bordered table-condensed table-hover'})
-    table = table.find_all('tr')
-    # remove table title
-    table = table[2:]
-    # add to dataframe
-    col = ['掛牌日期', '幣別', '現金買入', '現金賣出', '匯率買入', '匯率賣出']
-    data = []
-    for row in table:
-        row_data = []
-        date = row.find('td',{'class':'text-center'}).text
-        currency = row.find('td',{'class':'text-center tablet_hide'}).text
-        cash = row.find_all('td',{'class':'rate-content-cash text-right print_table-cell'})
-        sight = row.find_all('td',{'class':'rate-content-sight text-right print_table-cell'})
-        row_data.append(date)
-        row_data.append(currency)
-        row_data.append(cash[0].text)
-        row_data.append(cash[1].text)
-        row_data.append(sight[0].text)
-        row_data.append(sight[1].text)
-        data.append(row_data)
-    df = pd.DataFrame(data)
-    df.columns = col
-    df['掛牌日期'] = pd.to_datetime(df['掛牌日期'])
-    df.set_index('掛牌日期', inplace=True)
-    # recommend sort for 3 month & 2 week
-    recommend_3month = False
-    recommend_2week = False
-    date_today = df.index[0]
-    df2 = df.copy()
-    df2 = df2[0:14]
-    df.sort_values('匯率賣出',inplace=True)
-    date_5min_3month = df.index[0:5]
-    df2.sort_values('匯率賣出',inplace=True)
-    date_5min_2week = df.index[0:3]
-    if (date_today in date_5min_3month):
-        recommend_3month = True
-    if (date_today in date_5min_2week):
-        recommend_2week = True
-    output=[]
-    output.append(recommend_3month)
-    output.append(recommend_2week)
-    return output
-
+    return "建議你"
 
 class TocMachine(GraphMachine):
     def __init__(self, **machine_configs):
@@ -213,124 +92,193 @@ class TocMachine(GraphMachine):
 
     def is_going_to_show_fsm_pic(self, event):
         text = event.message.text
-        return text == "查看fsm結構圖"
+        return text == "fsm"
 
-    def is_going_to_cancel(self, event):
-        text = event.message.text
-        return text == "結束本次操作"
+    def is_going_to_search_restaurant(self, event):
+        global keyword
+        keyword = event.message.text
 
-    def is_going_to_value_now(self, event):
-        text = event.message.text
-        return text == "查詢即時匯率"
+        #check is chinese
+        for _char in keyword:
+            if not '\u4e00' <= _char <= '\u9fa5' :
+                return  False
+        return True
 
-    def is_going_to_value_recently(self, event):
-        text = event.message.text
-        return text == "查詢趨勢走向"
-    
-    def is_going_to_value_recently_3month(self, event):
-        text = event.message.text
-        return text == "最近三個月趨勢"
+    def on_enter_input_key(self, event):
+        send_text_message(event.reply_token, '請輸入你現在想吃什麼(例如火鍋、牛肉、飲料等等)(限中文)')
 
-    def is_going_to_value_recently_2week(self, event):
+    def is_going_to_input_key(self , event):
         text = event.message.text
-        return text == "最近兩週趨勢"
-
-    def is_going_to_recommend(self, event):
-        text = event.message.text
-        return text == "是否推薦兌幣"
+        return text == "查詢店家資訊"
 
     def is_going_to_introduction(self, event):
         text = event.message.text
-        return text == "功能介紹與說明"
+        return text == "功能介紹與使用說明"
 
     def on_enter_menu(self, event):
         reply_token = event.reply_token
         message = message_template.main_menu
         message_to_reply = FlexSendMessage("開啟主選單", message)
-        line_bot_api = LineBotApi( os.getenv('LINE_CHANNEL_ACCESS_TOKEN') )
+        line_bot_api = LineBotApi( channel_access_token )
         line_bot_api.reply_message(reply_token, message_to_reply)
     
     def on_enter_show_fsm_pic(self, event):
         reply_token = event.reply_token
         message = message_template.show_pic
         message_to_reply = FlexSendMessage("查看fsm結構圖", message)
-        line_bot_api = LineBotApi( os.getenv('LINE_CHANNEL_ACCESS_TOKEN') )
+        line_bot_api = LineBotApi( channel_access_token )
         line_bot_api.reply_message(reply_token, message_to_reply)
         self.go_back()
 
-    def on_enter_cancel(self, event):
+    def on_enter_search_restaurant(self, event):
         reply_token = event.reply_token
-        message = message_template.cancel_menu
-        message_to_reply = FlexSendMessage("結束並返回主選單", message)
-        line_bot_api = LineBotApi( os.getenv('LINE_CHANNEL_ACCESS_TOKEN') )
-        line_bot_api.reply_message(reply_token, message_to_reply)
+        get_restaurant_now()
+        global index
+        if index != 0 :
+            message = message_template.restaurant_list
+            message["contents"].clear()
+            for i in range (index):
+                new_message = copy.deepcopy(message_template.restaurant_item)
+                new_message["hero"]["url"] = search_imageurl[i]
+                new_message["body"]["contents"][0]["text"] = search_name[i]
+                new_message["body"]["contents"][1]["contents"][0]["contents"][1]["text"] = search_star[i]
+                new_message["body"]["contents"][1]["contents"][1]["contents"][1]["text"] = search_address[i]
+                new_message["body"]["contents"][1]["contents"][2]["contents"][1]["text"] = search_online[i]
+                new_message["footer"]["contents"][0]["action"]["uri"] = search_website[i]
+                # record data
+                new_message["footer"]["contents"][2]['action']["data"] = "加入最愛," + search_website[i]
+                message["contents"].append(new_message)
+            message_to_reply = FlexSendMessage("查詢店家資訊", message)
+            line_bot_api = LineBotApi( channel_access_token )
+            line_bot_api.reply_message(reply_token, message_to_reply)
+        else :
+            message_to_reply = FlexSendMessage("查詢店家資訊", message_template.no_result)
+            line_bot_api = LineBotApi( channel_access_token )
+            line_bot_api.reply_message(reply_token, message_to_reply)
         self.go_back()
 
-    def on_enter_value_now(self, event):
+    # 加入最愛-----------------------------------------------------------------------
+    def is_going_to_add_favorite(self , event):
+        text = event.postback.data
+        add_or_delete = text.split(',')[0]
+        return add_or_delete == '加入最愛'
+
+    def on_enter_add_favorite(self, event):
         reply_token = event.reply_token
-        value_now = get_value_now()
-        message = message_template.now_table
-        message["body"]["contents"][2]["contents"][0]["contents"][1]["text"] = value_now[1]
-        message["body"]["contents"][2]["contents"][1]["contents"][1]["text"] = value_now[2]
-        message["body"]["contents"][2]["contents"][3]["contents"][1]["text"] = value_now[3]
-        message["body"]["contents"][2]["contents"][4]["contents"][1]["text"] = value_now[4]
-        message_to_reply = FlexSendMessage("查詢即時值", message)
-        line_bot_api = LineBotApi( os.getenv('LINE_CHANNEL_ACCESS_TOKEN') )
-        line_bot_api.reply_message(reply_token, message_to_reply)
+        get_website = event.postback.data.split(',')[1]
+        response = requests.get(get_website)
+        soup = BeautifulSoup(response.content, "html.parser")
+        name = soup.find('img', {'itemprop': 'image'}).get("alt")
+        img = soup.find('img', {'itemprop': 'image'}).get("src")
+        star = soup.find('div', {'class': 'jsx-1207467136 text'}).getText()
+        address = soup.find('span', {'class': 'jsx-1969054371 detail'}).getText()
+        online = soup.find('div', {'class': 'jsx-1969054371 open-text'}).getText()
+        website = get_website
+        has_data = False
+        global favorite_index
+        msg = ""
+        # if url[0] == 'movie':
+        for tmp_name in favorite_name :
+            if tmp_name == name :
+                msg = '已在我的最愛!'
+                has_data = True
+                break
+        if has_data == False :
+            if favorite_index < 10:
+                favorite_imageurl.append(img)
+                favorite_name.append(name)
+                favorite_star.append(star)
+                favorite_address.append(address)
+                favorite_online.append(online)
+                favorite_website.append(website)
+                favorite_index += 1
+                msg = '成功加入我的最愛'
+            else:
+                msg = '我的最愛已滿(最多10個)'
+        send_text_message(reply_token , msg)
         self.go_back()
+    # ----------------------------------------------------------------------------------------------------
+    
+    # 查詢最愛-----------------------------------------------------------------------
+    def is_going_to_show_favorite(self , event):
+        text = event.message.text
+        return text == "查看我的最愛"
 
-    def on_enter_value_recently(self, event):
+    def on_enter_show_favorite(self, event):
         reply_token = event.reply_token
-        message = message_template.plot_menu
-        message_to_reply = FlexSendMessage("查詢趨勢走向選單", message)
-        line_bot_api = LineBotApi( os.getenv('LINE_CHANNEL_ACCESS_TOKEN') )
-        line_bot_api.reply_message(reply_token, message_to_reply)
-        
-    def on_enter_value_recently_3month(self, event):
-        reply_token = event.reply_token
-        pic_url = get_url_3month()
-        message = message_template.plot
-        message['contents'][0]['hero']['url'] = pic_url
-        message_to_reply = FlexSendMessage("趨勢圖-近三個月", message)
-        line_bot_api = LineBotApi( os.getenv('LINE_CHANNEL_ACCESS_TOKEN') )
-        line_bot_api.reply_message(reply_token, message_to_reply)
-
-    def on_enter_value_recently_2week(self, event):
-        reply_token = event.reply_token
-        pic_url = get_url_2week()
-        message = message_template.plot
-        message['contents'][0]['hero']['url'] = pic_url
-        message_to_reply = FlexSendMessage("趨勢圖-近兩週", message)
-        line_bot_api = LineBotApi( os.getenv('LINE_CHANNEL_ACCESS_TOKEN') )
-        line_bot_api.reply_message(reply_token, message_to_reply)
-
-    def on_enter_recommend(self, event):
-        reply_token = event.reply_token
-        message = message_template.recommend_message
-        rec_output = get_recommend()
-        rec_level = 0
-        if rec_output[0]:
-            message["body"]["contents"][3]["contents"][0]["contents"][1]["text"] = "是"
-            rec_level = rec_level + 1
-        if rec_output[1]:
-            message["body"]["contents"][3]["contents"][1]["contents"][1]["text"] = "是"
-            rec_level = rec_level + 1
-        if (rec_level == 0):
-            message["body"]["contents"][3]["contents"][3]["contents"][1]["text"] = "低"
-        elif (rec_level == 1):
-            message["body"]["contents"][3]["contents"][3]["contents"][1]["text"] = "中"
-        else:
-            message["body"]["contents"][3]["contents"][3]["contents"][1]["text"] = "高"
-        message_to_reply = FlexSendMessage("是否推薦兌幣", message)
-        line_bot_api = LineBotApi( os.getenv('LINE_CHANNEL_ACCESS_TOKEN') )
-        line_bot_api.reply_message(reply_token, message_to_reply)
+        global favorite_index
+        if favorite_index != 0 :
+            message = message_template.restaurant_list
+            message["contents"].clear()
+            for i in range (favorite_index):
+                new_message = copy.deepcopy(message_template.favorite_item)
+                new_message["hero"]["url"] = favorite_imageurl[i]
+                new_message["body"]["contents"][0]["text"] = favorite_name[i]
+                new_message["body"]["contents"][1]["contents"][0]["contents"][1]["text"] = favorite_star[i]
+                new_message["body"]["contents"][1]["contents"][1]["contents"][1]["text"] = favorite_address[i]
+                new_message["body"]["contents"][1]["contents"][2]["contents"][1]["text"] = favorite_online[i]
+                new_message["footer"]["contents"][0]["action"]["uri"] = favorite_website[i]
+                # record data
+                new_message["footer"]["contents"][2]['action']["data"] = "從我的最愛移除," + favorite_website[i]
+                message["contents"].append(new_message)
+            message_to_reply = FlexSendMessage("查詢我的最愛", message)
+            line_bot_api = LineBotApi( channel_access_token )
+            line_bot_api.reply_message(reply_token, message_to_reply)
+        else :
+            message_to_reply = FlexSendMessage("查詢我的最愛", message_template.no_result)
+            line_bot_api = LineBotApi( channel_access_token )
+            line_bot_api.reply_message(reply_token, message_to_reply)
         self.go_back()
+    # ----------------------------------------------------------------------------------------------------
 
+    # 刪除最愛-----------------------------------------------------------------------
+    def is_going_to_delete_favorite(self , event):
+        text = event.postback.data
+        add_or_delete = text.split(',')[0]
+        return add_or_delete == '從我的最愛移除'
+
+    def on_enter_delete_favorite(self, event):
+        reply_token = event.reply_token
+        get_website = event.postback.data.split(',')[1]
+        response = requests.get(get_website)
+        soup = BeautifulSoup(response.content, "html.parser")
+        name = soup.find('img', {'itemprop': 'image'}).get("alt")
+        img = soup.find('img', {'itemprop': 'image'}).get("src")
+        star = soup.find('div', {'class': 'jsx-1207467136 text'}).getText()
+        address = soup.find('span', {'class': 'jsx-1969054371 detail'}).getText()
+        online = soup.find('div', {'class': 'jsx-1969054371 open-text'}).getText()
+        website = get_website
+        has_data = False
+        global favorite_index
+        msg = ""
+        # if url[0] == 'movie':
+        for tmp_name in favorite_name :
+            if tmp_name == name :
+                has_data = True
+                break
+        if has_data == True :
+            if favorite_index > 0:
+                favorite_imageurl.remove(img)
+                favorite_name.remove(name)
+                favorite_star.remove(star)
+                favorite_address.remove(address)
+                favorite_online.remove(online)
+                favorite_website.remove(website)
+                favorite_index -= 1
+                msg = '成功從我的最愛中移除'
+            else :
+                msg = "我的最愛中無資料哦~"
+        else :
+            msg = "我的最愛中無此資料哦~"
+        send_text_message(reply_token , msg)
+        self.go_back()
+    # ----------------------------------------------------------------------------------------------------
+    
     def on_enter_introduction(self, event):
         reply_token = event.reply_token
         message = message_template.introduction_message
-        message_to_reply = FlexSendMessage("功能介紹與說明", message)
-        line_bot_api = LineBotApi( os.getenv('LINE_CHANNEL_ACCESS_TOKEN') )
+        message_to_reply = FlexSendMessage("功能介紹與使用說明", message)
+        line_bot_api = LineBotApi( channel_access_token )
         line_bot_api.reply_message(reply_token, message_to_reply)
         self.go_back()
 

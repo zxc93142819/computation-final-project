@@ -1,0 +1,22 @@
+digraph graphAttrs {
+    size = "200" ; 
+    menu -> add_favorite [label= "advance_postback[is_going_to_add_favorite]"];
+    menu -> delete_favorite [label= "advance_postback[is_going_to_delete_favorite]"];
+    input_key -> search_restaurant [label= "advance[is_going_to_search_restaurant]"];
+    
+    user -> show_favorite [label= "advance[is_going_to_show_favorite]"];
+    user -> add_favorite [label= "advance_postback[is_going_to_add_favorite]"];
+    user -> delete_favorite [label= "advance_postback[is_going_to_delete_favorite]"];
+    show_fsm_pic -> user [label= "go_back"];
+    search_restaurant -> user [label= "go_back"];
+    introduction -> user [label= "go_back"];
+    add_favorite -> user [label= "go_back"];
+    show_favorite -> user [label= "go_back"];
+    delete_favorite -> user [label= "go_back"];
+    menu -> menu [label= "advance[is_going_to_menu]"];
+    menu -> show_fsm_pic [label= "advance[is_going_to_show_fsm_pic]"];
+    menu -> input_key [label= "advance[is_going_to_input_key]"];
+    menu -> introduction [label= "advance[is_going_to_introduction]"];
+    menu -> show_favorite [label= "advance[is_going_to_show_favorite]"];
+    user -> menu [label= "advance[is_going_to_menu]"];
+}

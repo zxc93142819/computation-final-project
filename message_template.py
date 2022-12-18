@@ -6,7 +6,7 @@ main_menu = {
       "type": "bubble",
       "hero": {
         "type": "image",
-        "url": "https://i.imgur.com/lFq9NTg.jpg",
+        "url": "https://i.imgur.com/4HFOPeR.png",
         "size": "full",
         "aspectMode": "fit",
         "aspectRatio": "1.25:1"
@@ -19,8 +19,8 @@ main_menu = {
             "type": "button",
             "action": {
               "type": "message",
-              "label": "介紹與說明",
-              "text": "功能介紹與說明"
+              "label": "功能介紹與使用說明",
+              "text": "功能介紹與使用說明"
             },
             "height": "md",
             "color": "#ff9900",
@@ -34,7 +34,7 @@ main_menu = {
       "type": "bubble",
       "hero": {
         "type": "image",
-        "url": "https://i.imgur.com/V2tkpQb.png",
+        "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_kags6idO74w3nBXNf_wjgbG5HJtwFB9hNQ&usqp=CAU",
         "size": "full",
         "aspectMode": "fit",
         "aspectRatio": "1.25:1"
@@ -47,8 +47,8 @@ main_menu = {
             "type": "button",
             "action": {
               "type": "message",
-              "label": "即時查詢",
-              "text": "查詢即時匯率"
+              "label": "查詢店家資訊",
+              "text": "查詢店家資訊"
             },
             "height": "md",
             "color": "#ff6666",
@@ -62,7 +62,7 @@ main_menu = {
       "type": "bubble",
       "hero": {
         "type": "image",
-        "url": "https://i.imgur.com/nQaCDXh.png",
+        "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqDZwJPxo5y6aAzVyQuCCX8heLEf7RzOoENg&usqp=CAU",
         "size": "full",
         "aspectMode": "fit",
         "aspectRatio": "1.25:1"
@@ -75,8 +75,8 @@ main_menu = {
             "type": "button",
             "action": {
               "type": "message",
-              "label": "近期趨勢圖",
-              "text": "查詢趨勢走向"
+              "label": "我的最愛",
+              "text": "查看我的最愛"
             },
             "height": "md",
             "color": "#ff66b3",
@@ -86,34 +86,6 @@ main_menu = {
         "spacing": "lg"
       }
     },
-    {
-      "type": "bubble",
-      "hero": {
-        "type": "image",
-        "url": "https://i.imgur.com/UrSkoW4.png",
-        "size": "full",
-        "aspectMode": "fit",
-        "aspectRatio": "1.25:1"
-      },
-      "footer": {
-        "type": "box",
-        "layout": "vertical",
-        "contents": [
-          {
-            "type": "button",
-            "action": {
-              "type": "message",
-              "label": "推薦與否",
-              "text": "是否推薦兌幣"
-            },
-            "height": "md",
-            "color": "#b366ff",
-            "style": "primary"
-          }
-        ],
-        "spacing": "lg"
-      }
-    }
   ]
 }
 
@@ -125,7 +97,7 @@ show_pic = {
       "size": "giga",
       "hero": {
         "type": "image",
-        "url": "https://i.imgur.com/bwXOyBi.png",
+        "url": "https://i.imgur.com/dWyXPt9.png",
         "aspectMode": "fit",
         "size": "full",
         "aspectRatio": "2:1"
@@ -139,7 +111,7 @@ show_pic = {
             "action": {
               "type": "uri",
               "label": "前往網頁看圖片",
-              "uri": "https://i.imgur.com/bwXOyBi.png"
+              "uri": "https://i.imgur.com/dWyXPt9.png"
             },
             "height": "md",
             "color": "#5cd65c",
@@ -163,7 +135,7 @@ show_pic = {
   ]
 }
 
-cancel_menu = {
+no_result = {
   "type": "bubble",
   "body": {
     "type": "box",
@@ -171,249 +143,11 @@ cancel_menu = {
     "contents": [
       {
         "type": "text",
-        "text": "已結束本次操作",
+        "text": "查無相關店家",
         "weight": "bold",
         "size": "xl",
         "margin": "lg",
         "align": "center"
-      }
-    ]
-  },
-  "footer": {
-    "type": "box",
-    "layout": "vertical",
-    "contents": [
-      {
-        "type": "button",
-        "style": "primary",
-        "action": {
-          "type": "message",
-          "label": "返回主選單",
-          "text": "主選單"
-        }
-      }
-    ]
-  },
-  "styles": {
-    "footer": {
-      "separator": True
-    }
-  }
-}
-
-plot_menu = {
-  "type": "carousel",
-  "contents": [
-    {
-      "type": "bubble",
-      "header": {
-        "type": "box",
-        "layout": "vertical",
-        "contents": [
-          {
-            "type": "text",
-            "text": "趨勢圖區間選擇",
-            "weight": "bold",
-            "align": "center",
-            "size": "lg"
-          }
-        ]
-      },
-      "footer": {
-        "type": "box",
-        "layout": "vertical",
-        "contents": [
-          {
-            "type": "button",
-            "action": {
-              "type": "message",
-              "label": "最近三個月",
-              "text": "最近三個月趨勢"
-            },
-            "height": "md",
-            "color": "#00ff80",
-            "style": "primary"
-          },
-          {
-            "type": "button",
-            "action": {
-              "type": "message",
-              "label": "最近兩週",
-              "text": "最近兩週趨勢"
-            },
-            "height": "md",
-            "color": "#00cc66",
-            "style": "primary"
-          },
-          {
-            "type": "button",
-            "action": {
-              "type": "message",
-              "label": "結束本次操作",
-              "text": "結束本次操作"
-            },
-            "height": "md",
-            "color": "#00994d",
-            "style": "primary"
-          }
-        ],
-        "spacing": "lg"
-      }
-    }
-  ]
-}
-
-plot = {
-  "type": "carousel",
-  "contents": [
-    {
-      "type": "bubble",
-      "size": "giga",
-      "hero": {
-        "type": "image",
-        "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_1_cafe.png",
-        "aspectMode": "fit",
-        "size": "full"
-      },
-      "footer": {
-        "type": "box",
-        "layout": "vertical",
-        "contents": [
-          {
-            "type": "button",
-            "action": {
-              "type": "message",
-              "label": "查詢其他趨勢",
-              "text": "查詢趨勢走向"
-            },
-            "height": "md",
-            "color": "#5cd65c",
-            "style": "primary"
-          },
-          {
-            "type": "button",
-            "action": {
-              "type": "message",
-              "label": "結束本次操作",
-              "text": "結束本次操作"
-            },
-            "height": "md",
-            "color": "#00cc66",
-            "style": "primary"
-          }
-        ],
-        "spacing": "lg"
-      }
-    }
-  ]
-}
-
-now_table = {
-  "type": "bubble",
-  "body": {
-    "type": "box",
-    "layout": "vertical",
-    "contents": [
-      {
-        "type": "text",
-        "text": "即時匯率",
-        "weight": "bold",
-        "size": "xl",
-        "margin": "md"
-      },
-      {
-        "type": "separator",
-        "margin": "xxl"
-      },
-      {
-        "type": "box",
-        "layout": "vertical",
-        "margin": "xxl",
-        "spacing": "sm",
-        "contents": [
-          {
-            "type": "box",
-            "layout": "horizontal",
-            "contents": [
-              {
-                "type": "text",
-                "text": "現金買入",
-                "size": "md",
-                "color": "#555555",
-                "flex": 0
-              },
-              {
-                "type": "text",
-                "text": "$0.99",
-                "size": "md",
-                "color": "#111111",
-                "align": "end"
-              }
-            ]
-          },
-          {
-            "type": "box",
-            "layout": "horizontal",
-            "contents": [
-              {
-                "type": "text",
-                "text": "現金賣出",
-                "size": "md",
-                "color": "#555555",
-                "flex": 0
-              },
-              {
-                "type": "text",
-                "text": "$3.33",
-                "size": "md",
-                "color": "#111111",
-                "align": "end"
-              }
-            ]
-          },
-          {
-            "type": "separator",
-            "margin": "xxl"
-          },
-          {
-            "type": "box",
-            "layout": "horizontal",
-            "contents": [
-              {
-                "type": "text",
-                "text": "匯率買入",
-                "size": "md",
-                "color": "#555555"
-              },
-              {
-                "type": "text",
-                "text": "$8.0",
-                "size": "md",
-                "color": "#111111",
-                "align": "end"
-              }
-            ]
-          },
-          {
-            "type": "box",
-            "layout": "horizontal",
-            "contents": [
-              {
-                "type": "text",
-                "text": "匯率賣出",
-                "size": "md",
-                "color": "#555555"
-              },
-              {
-                "type": "text",
-                "text": "$0.69",
-                "size": "md",
-                "color": "#111111",
-                "align": "end"
-              }
-            ]
-          }
-        ]
       }
     ]
   },
@@ -571,27 +305,17 @@ introduction_message = {
       },
       {
         "type": "text",
-        "text": "★　快速查詢日幣匯率的小幫手",
+        "text": "1. 依據你輸入的關鍵字(想吃什麼)，查詢台南現在正營業的店家資訊(會查給你五間餐廳)",
         "wrap": True
       },
       {
         "type": "text",
-        "text": "★　數據–臺灣銀行即時爬取",
+        "text": "2. 可將自己去過的店家加入最愛(最多儲存10個)",
         "wrap": True
       },
       {
         "type": "text",
-        "text": "●　查詢即時匯率（買賣）",
-        "wrap": True
-      },
-      {
-        "type": "text",
-        "text": "●　查詢近期走勢（近3月／2週）",
-        "wrap": True
-      },
-      {
-        "type": "text",
-        "text": "●　推薦兌幣程度（低／中／高）",
+        "text": "3. 輸入「fsm」查看fsm結構圖",
         "wrap": True
       },
       {
@@ -619,7 +343,7 @@ introduction_message = {
       },
       {
         "type": "text",
-        "text": "◎　主選單請拖曳後橫向(左右)滑動",
+        "text": "◎　操作時請拖曳後橫向(左右)滑動以查看更多呦~",
         "wrap": True
       }
     ]
@@ -645,3 +369,447 @@ introduction_message = {
     }
   }
 }
+
+restaurant_item = {
+    "type": "bubble",
+    "hero": {
+      "type": "image",
+      "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_1_cafe.png",
+      "size": "full",
+      "aspectRatio": "20:13",
+      "aspectMode": "cover",
+      "action": {
+        "type": "uri",
+        "uri": "http://linecorp.com/"
+      }
+    },
+    "body": {
+      "type": "box",
+      "layout": "vertical",
+      "contents": [
+        {
+          "type": "text",
+          "text": "Brown Cafe",
+          "weight": "bold",
+          "size": "xl"
+        },
+        {#["body"]["contents"][1]
+          "type": "box",
+          "layout": "vertical",
+          "margin": "lg",
+          "spacing": "sm",
+          "contents": [
+            {#["body"]["contents"][1]["contents"][0]
+              "type": "box",
+              "layout": "baseline",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "店家評價",
+                  "size": "sm",
+                  "color": "#999999",
+                  "flex": 2
+                },
+                {
+                  "type": "text",
+                  "text": "4.0",
+                  "size": "sm",
+                  "color": "#999999",
+                  "flex": 5
+                }
+              ]
+            },
+            {
+              "type": "box",
+              "layout": "baseline",
+              "spacing": "sm",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "店家地址",
+                  "color": "#aaaaaa",
+                  "size": "sm",
+                  "flex": 2
+                },
+                {
+                  "type": "text",
+                  "text": "Miraina Tower, 4-1-6 Shinjuku, Tokyo",
+                  "wrap": True,
+                  "color": "#666666",
+                  "size": "sm",
+                  "flex": 5
+                }
+              ]
+            },
+            {
+              "type": "box",
+              "layout": "baseline",
+              "spacing": "sm",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "營業時間",
+                  "color": "#aaaaaa",
+                  "size": "sm",
+                  "flex": 2
+                },
+                {
+                  "type": "text",
+                  "text": "10:00 - 23:00",
+                  "wrap": True,
+                  "color": "#666666",
+                  "size": "sm",
+                  "flex": 5
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "footer": {
+      "type": "box",
+      "layout": "vertical",
+      "spacing": "sm",
+      "contents": [
+        {
+          "type": "button",
+          "style": "link",
+          "height": "sm",
+          "action": {
+            "type": "uri",
+            "label": "查看店家",
+            "uri": "https://linecorp.com"
+          }
+        },
+        {
+          "type": "box",
+          "layout": "vertical",
+          "contents": [],
+          "margin": "sm"
+        },
+        {
+          "type": "button",
+          "style": "link",
+          "height": "sm",
+          "action": {
+            "type": "postback",
+            "label": "加入最愛",
+            "data": "hello",
+          }
+        }
+      ],
+      "flex": 0
+    },
+}
+
+restaurant_list = {
+  "type": "carousel",
+  "contents": [
+    {
+    "type": "bubble",
+    "hero": {
+      "type": "image",
+      "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_1_cafe.png",
+      "size": "full",
+      "aspectRatio": "20:13",
+      "aspectMode": "cover",
+      "action": {
+        "type": "uri",
+        "uri": "http://linecorp.com/"
+      }
+    },
+    "body": {
+      "type": "box",
+      "layout": "vertical",
+      "contents": [
+        {
+          "type": "text",
+          "text": "Brown Cafe",
+          "weight": "bold",
+          "size": "xl"
+        },
+        {#["body"]["contents"][1]
+          "type": "box",
+          "layout": "vertical",
+          "margin": "lg",
+          "spacing": "sm",
+          "contents": [
+            {#["body"]["contents"][1]["contents"][0]
+              "type": "box",
+              "layout": "baseline",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "店家評價",
+                  "size": "sm",
+                  "color": "#999999",
+                  "flex": 2
+                },
+                {
+                  "type": "text",
+                  "text": "4.0",
+                  "size": "sm",
+                  "color": "#999999",
+                  "flex": 5
+                }
+              ]
+            },
+            {
+              "type": "box",
+              "layout": "baseline",
+              "spacing": "sm",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "店家地址",
+                  "color": "#aaaaaa",
+                  "size": "sm",
+                  "flex": 2
+                },
+                {
+                  "type": "text",
+                  "text": "Miraina Tower, 4-1-6 Shinjuku, Tokyo",
+                  "wrap": True,
+                  "color": "#666666",
+                  "size": "sm",
+                  "flex": 5
+                }
+              ]
+            },
+            {
+              "type": "box",
+              "layout": "baseline",
+              "spacing": "sm",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "營業時間",
+                  "color": "#aaaaaa",
+                  "size": "sm",
+                  "flex": 2
+                },
+                {
+                  "type": "text",
+                  "text": "10:00 - 23:00",
+                  "wrap": True,
+                  "color": "#666666",
+                  "size": "sm",
+                  "flex": 5
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "footer": {
+      "type": "box",
+      "layout": "vertical",
+      "spacing": "sm",
+      "contents": [
+        {
+          "type": "button",
+          "style": "link",
+          "height": "sm",
+          "action": {
+            "type": "uri",
+            "label": "查看店家",
+            "uri": "https://linecorp.com"
+          }
+        },
+        {
+          "type": "box",
+          "layout": "vertical",
+          "contents": [],
+          "margin": "sm"
+        },
+        {
+          "type": "button",
+          "action": {
+            "type": "uri",
+            "label": "加入最愛",
+            "uri": "http://linecorp.com/"
+          },
+          "style": "link",
+          "height": "sm"
+        }
+      ],
+      "flex": 0
+    },
+}
+  
+  ]
+}
+
+no_favorite = {
+  "type": "bubble",
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "沒有最愛店家哦~~",
+        "weight": "bold",
+        "size": "xl",
+        "margin": "lg",
+        "align": "center"
+      }
+    ]
+  },
+  "footer": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "button",
+        "style": "primary",
+        "action": {
+          "type": "message",
+          "label": "返回主選單",
+          "text": "主選單"
+        }
+      }
+    ]
+  },
+  "styles": {
+    "footer": {
+      "separator": True
+    }
+  }
+}
+
+favorite_item = {
+    "type": "bubble",
+    "hero": {
+      "type": "image",
+      "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_1_cafe.png",
+      "size": "full",
+      "aspectRatio": "20:13",
+      "aspectMode": "cover",
+      "action": {
+        "type": "uri",
+        "uri": "http://linecorp.com/"
+      }
+    },
+    "body": {
+      "type": "box",
+      "layout": "vertical",
+      "contents": [
+        {
+          "type": "text",
+          "text": "Brown Cafe",
+          "weight": "bold",
+          "size": "xl"
+        },
+        {#["body"]["contents"][1]
+          "type": "box",
+          "layout": "vertical",
+          "margin": "lg",
+          "spacing": "sm",
+          "contents": [
+            {#["body"]["contents"][1]["contents"][0]
+              "type": "box",
+              "layout": "baseline",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "店家評價",
+                  "size": "sm",
+                  "color": "#999999",
+                  "flex": 2
+                },
+                {
+                  "type": "text",
+                  "text": "4.0",
+                  "size": "sm",
+                  "color": "#999999",
+                  "flex": 5
+                }
+              ]
+            },
+            {
+              "type": "box",
+              "layout": "baseline",
+              "spacing": "sm",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "店家地址",
+                  "color": "#aaaaaa",
+                  "size": "sm",
+                  "flex": 2
+                },
+                {
+                  "type": "text",
+                  "text": "Miraina Tower, 4-1-6 Shinjuku, Tokyo",
+                  "wrap": True,
+                  "color": "#666666",
+                  "size": "sm",
+                  "flex": 5
+                }
+              ]
+            },
+            {
+              "type": "box",
+              "layout": "baseline",
+              "spacing": "sm",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "營業時間",
+                  "color": "#aaaaaa",
+                  "size": "sm",
+                  "flex": 2
+                },
+                {
+                  "type": "text",
+                  "text": "10:00 - 23:00",
+                  "wrap": True,
+                  "color": "#666666",
+                  "size": "sm",
+                  "flex": 5
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "footer": {
+      "type": "box",
+      "layout": "vertical",
+      "spacing": "sm",
+      "contents": [
+        {
+          "type": "button",
+          "style": "link",
+          "height": "sm",
+          "action": {
+            "type": "uri",
+            "label": "查看店家",
+            "uri": "https://linecorp.com"
+          }
+        },
+        {
+          "type": "box",
+          "layout": "vertical",
+          "contents": [],
+          "margin": "sm"
+        },
+        {
+          "type": "button",
+          "style": "link",
+          "height": "sm",
+          "action": {
+            "type": "postback",
+            "label": "從我的最愛移除",
+            "data": "hello",
+          }
+        }
+      ],
+      "flex": 0
+    },
+}
+
