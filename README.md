@@ -1,54 +1,58 @@
-# TOC Project 2020
+# TOC Project 2022
 > Linebot 實作
-> Due date: 2019/12/11 12pm
 
-## 創立主旨
-日本一直是台灣旅客最熱門的選擇之一，每年也有許多旅客需要兌換日幣，而台灣人總是喜歡貪小便宜，些許的匯率誤差也許會讓他們痛不欲生，他們總是怕自己吃虧了，因此，為了這些人們可以更方便的查詢日幣的即時匯率，與幫助評估當下是否是好時機，才產生了這隻機器人。
+## 設計主旨
+在吃飯時刻，我總會不知道要吃哪一間，我相信很多人也有這問題，因此使用者可以藉由查詢自己現在想吃什麼類型的餐點來查現在有哪一間店符合輸入的關鍵字正在營業，並且查詢給使用者參考，以達到讓使用者能有吃哪一間的想法~
 
 ## 介紹
 ### 基本資訊
-名稱：日匯小幫手
-![](https://i.imgur.com/gEjFgHh.png)
+名稱：台南生活小助手
+![](https://i.imgur.com/DMfQ8UF.png)
 
 首先先幫我加入一下好友><
 可以使用搜尋ID(記得要打"@")或掃QR Code
 
-![](https://i.imgur.com/q92Guqj.png)
+![](https://i.imgur.com/W0PFqUo.png)
 
 ### 功能
 這是它的選單
-![](https://i.imgur.com/9xl8U9a.png)
+![](https://i.imgur.com/slEHiSi.png)
 
-1. 它可以查詢即時匯率
-2. 它可以查看最近三個月/兩週的趨勢圖
-3. 它可以幫你判斷現在值不值得換日幣
+1. 它可以查詢有關輸入的關鍵字店家
+2. 它會展示店家的資訊
+3. 它可以查看您儲存的最愛
 
-+ 透過「介紹與說明」，可以查看教學與功能提醒
-![](https://i.imgur.com/gAe92Yj.png)
++ 透過「功能介紹與使用說明」，可以查看教學與功能提醒
+![](https://i.imgur.com/1fTVFaT.png)
 
-+ 透過「即時查詢」，可以看到即時的現金與匯率之買入賣出值
-![](https://i.imgur.com/ETZQzxg.png)
++ 透過「查詢店家資訊」，可以看到查詢後的店家資訊
+![](https://i.imgur.com/TEgI2P1.png)
 
-+ 透過「近期趨勢圖」，可以開啟趨勢圖的區間選單
-![](https://i.imgur.com/VRY0trM.png)
++ 透過按下「加入最愛」，可以將選中的店家加入最愛
+![](https://i.imgur.com/DBKc7t7.png)
 
-+ 選擇「最近三個月」，會顯示最近三個月以來的匯率變化
-![](https://i.imgur.com/53RtTUm.png)
++ 如果再按下「加入最愛」(或是已經在我的最愛了)，會顯示「已在我的最愛!」
+![](https://i.imgur.com/ooRDftp.png)
 
-+ 選擇「最近兩週」，會顯示最近兩週以來的匯率變化
-![](https://i.imgur.com/yEeQ5RE.png)
++ 如果我的最愛已經十個了，再按下「加入最愛」，會顯示「我的最愛已滿(最多10個)」
+![](https://i.imgur.com/iGaTsDH.png)
 
-+ 透過「推薦與否」，可以幫助計算即時匯率是否為近期低點
-  (是否最近三個月的最低5個數值/最近兩周的最低3個數值)
-  推薦程度與是否為低點有關，若都不是最低點則推薦度為「低」
-  其中一項是則推薦度「中」，兩者皆是則推薦度「高」
-  ![](https://i.imgur.com/zp6IZtn.png)
++ 在「我的最愛」中，可以看到店家並且選擇查看店家網站或是從我的最愛中移除
+![](https://i.imgur.com/Fa2WXdx.png)
 
++ 透過按下「從我的最愛中移除」，可以將選中的店家從我的最愛中移除
+![](https://i.imgur.com/jM3fBm0.jpg)
+
++ 再看「我的最愛」，可以看到該店家已經從我的最愛中移除
+![](https://i.imgur.com/0U2pdDv.png)
+
++ 如果再按下「從我的最愛中移除」，會顯示「我的最愛中無此資料哦~」
+![](https://i.imgur.com/jRbRLVv.png)
+
++ 在主選單下輸入「fsm」，會顯示「fsm結構圖」
+![](https://i.imgur.com/TKyAZzr.png)
 
 ## Fsm 結構圖
-![](https://i.imgur.com/zEHiCcn.png)
+![](https://i.imgur.com/dWyXPt9.png)
 
-
-> 作者：　葉家彣／成功大學電機系109
-> 最後編輯時間：　2019/12/11
-
+資訊113 F74096124 楊憲閔
