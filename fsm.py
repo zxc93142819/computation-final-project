@@ -73,15 +73,6 @@ def get_restaurant_now():
         # print(search_website[index])
         index += 1
 
-def get_url_3month():
-    return "三個月資訊"
-
-def get_url_2week():
-    return "兩周資訊"
-
-def get_recommend():
-    return "建議你"
-
 class TocMachine(GraphMachine):
     def __init__(self, **machine_configs):
         self.machine = GraphMachine(model=self, **machine_configs)
@@ -137,6 +128,10 @@ class TocMachine(GraphMachine):
         if index != 0 :
             message = message_template.restaurant_list
             message["contents"].clear()
+            first_message = copy.deepcopy(message_template.first_item)
+            msg = "共查到" + str(index) + "間正在營業的餐廳(最多10間)"
+            first_message["body"]["contents"][0]["text"] = msg
+            message["contents"].append(first_message)
             for i in range (index):
                 new_message = copy.deepcopy(message_template.restaurant_item)
                 new_message["hero"]["url"] = search_imageurl[i]
