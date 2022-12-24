@@ -23,36 +23,45 @@
 3. 它可以查看您儲存的最愛
 
 + 透過「功能介紹與使用說明」，可以查看教學與功能提醒
-![](https://i.imgur.com/1fTVFaT.png)
+![](https://i.imgur.com/1IZHOpC.png)
 
 + 透過「查詢店家資訊」，可以看到查詢後的店家資訊
-![](https://i.imgur.com/TEgI2P1.png)
+![](https://i.imgur.com/eA8XMW3.png)
+
++ 若輸入錯想要查的店家類別，也能按下「返回重新輸入餐廳類別」，重新查詢
+![](https://i.imgur.com/G3kxxCa.png)
 
 + 透過按下「加入最愛」，可以將選中的店家加入最愛
-![](https://i.imgur.com/DBKc7t7.png)
+![](https://i.imgur.com/anImosk.png)
+
++ 加入最愛後，可以選擇「返回查詢結果」繼續瀏覽
+![](https://i.imgur.com/xBtwMlH.png)
 
 + 如果再按下「加入最愛」(或是已經在我的最愛了)，會顯示「已在我的最愛!」
-![](https://i.imgur.com/ooRDftp.png)
+![](https://i.imgur.com/57yAStT.png)
 
 + 如果我的最愛已經十個了，再按下「加入最愛」，會顯示「我的最愛已滿(最多10個)」
-![](https://i.imgur.com/iGaTsDH.png)
+![](https://i.imgur.com/pZOreDN.png)
 
 + 在「我的最愛」中，可以看到店家並且選擇查看店家網站或是從我的最愛中移除
-![](https://i.imgur.com/Fa2WXdx.png)
+![](https://i.imgur.com/XEOJ7J0.jpg)
+
++ 也可能您沒儲存任何店家，就會顯示「沒有最愛店家哦」
+![](https://i.imgur.com/jKv5heD.png)
 
 + 透過按下「從我的最愛中移除」，可以將選中的店家從我的最愛中移除
-![](https://i.imgur.com/jM3fBm0.jpg)
+![](https://i.imgur.com/XEOJ7J0.jpg)
 
-+ 再看「我的最愛」，可以看到該店家已經從我的最愛中移除
-![](https://i.imgur.com/0U2pdDv.png)
++ 再按下「返回我的最愛清單」中，可以看到移除的店家不會顯示了
+![](https://i.imgur.com/WVeYOK9.jpg)
 
 + 如果再按下「從我的最愛中移除」，會顯示「我的最愛中無此資料哦~」
-![](https://i.imgur.com/jRbRLVv.png)
+![](https://i.imgur.com/Dy7F0Gn.jpg)
 
 + 在主選單下輸入「fsm」，會顯示「fsm結構圖」
-![](https://i.imgur.com/TKyAZzr.png)
+![](https://i.imgur.com/x6xviHA.png)
 
 ## Fsm 結構圖
-![](https://i.imgur.com/dWyXPt9.png)
+![](https://i.imgur.com/6w5d9ih.png)
 
 資訊113 F74096124 楊憲閔
