@@ -328,12 +328,12 @@ introduction_message = {
       },
       {
         "type": "text",
-        "text": "◎　輸入「主選單」來開始所有操作",
+        "text": "◎　輸入「主選單」來開始所有操作(或是按下方menu以呼叫主選單",
         "wrap": True
       },
       {
         "type": "text",
-        "text": "◎　可依照按鈕提示進行點選",
+        "text": "◎　也可利用下方按鈕進行操作",
         "wrap": True
       },
       {
