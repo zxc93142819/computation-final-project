@@ -15,6 +15,11 @@
 ![](https://i.imgur.com/W0PFqUo.png)
 
 ### 功能
+
+#### 下方選單
+也能藉由下方選單使用功能
+![](https://i.imgur.com/bx99cp8.jpg)
+
 #### 主選單
 ![](https://i.imgur.com/slEHiSi.png)
 
