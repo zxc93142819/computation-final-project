@@ -97,7 +97,7 @@ show_pic = {
       "size": "giga",
       "hero": {
         "type": "image",
-        "url": "https://i.imgur.com/dWyXPt9.png",
+        "url": "https://i.imgur.com/6w5d9ih.png",
         "aspectMode": "fit",
         "size": "full",
         "aspectRatio": "2:1"
@@ -111,7 +111,7 @@ show_pic = {
             "action": {
               "type": "uri",
               "label": "前往網頁看圖片",
-              "uri": "https://i.imgur.com/dWyXPt9.png"
+              "uri": "https://i.imgur.com/6w5d9ih.png"
             },
             "height": "md",
             "color": "#5cd65c",
@@ -305,7 +305,7 @@ introduction_message = {
       },
       {
         "type": "text",
-        "text": "1. 依據你輸入的關鍵字(想吃什麼)，查詢台南現在正營業的店家資訊(會查給你五間餐廳)",
+        "text": "1. 依據你輸入的關鍵字(想吃什麼)，查詢台南現在正營業的店家資訊(會查給你十間餐廳)",
         "wrap": True
       },
       {
@@ -333,17 +333,12 @@ introduction_message = {
       },
       {
         "type": "text",
-        "text": "　　(也可由下方列選單點選快捷鍵)",
+        "text": "◎　可依照按鈕提示進行點選",
         "wrap": True
       },
       {
         "type": "text",
-        "text": "◎　其餘依照按鈕提示進行點選即可",
-        "wrap": True
-      },
-      {
-        "type": "text",
-        "text": "◎　操作時請拖曳後橫向(左右)滑動以查看更多呦~",
+        "text": "◎　操作時請拖曳橫向(左右)滑動以查看更多呦~",
         "wrap": True
       }
     ]
@@ -391,7 +386,8 @@ restaurant_item = {
           "type": "text",
           "text": "Brown Cafe",
           "weight": "bold",
-          "size": "xl"
+          "size": "xl",
+          "flex":1
         },
         {#["body"]["contents"][1]
           "type": "box",
@@ -455,7 +451,7 @@ restaurant_item = {
                 },
                 {
                   "type": "text",
-                  "text": "10:00 - 23:00",
+                  "text": " ",
                   "wrap": True,
                   "color": "#666666",
                   "size": "sm",
@@ -813,3 +809,240 @@ favorite_item = {
     },
 }
 
+add_reply = {
+  "type": "bubble",
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "查無相關店家",
+        "weight": "bold",
+        "size": "xl",
+        "margin": "lg",
+        "align": "center"
+      }
+    ]
+  },
+  "footer": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "button",
+        "style": "primary",
+        "action": {
+          "type": "message",
+          "label": "返回查詢結果",
+          "text": "返回查詢結果"
+        }
+      },
+      {
+        "type" : "separator"
+      },
+      {
+        "type": "button",
+        "style": "primary",
+        "action": {
+          "type": "message",
+          "label": "返回主選單",
+          "text": "主選單"
+        }
+      },
+    ]
+  },
+  "styles": {
+    "footer": {
+      "separator": True
+    }
+  }
+}
+
+delete_reply = {
+  "type": "bubble",
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "查無相關店家",
+        "weight": "bold",
+        "size": "xl",
+        "margin": "lg",
+        "align": "center"
+      }
+    ]
+  },
+  "footer": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "button",
+        "style": "primary",
+        "action": {
+          "type": "message",
+          "label": "返回我的最愛清單",
+          "text": "返回我的最愛清單"
+        }
+      },
+      {
+        "type" : "separator"
+      },
+      {
+        "type": "button",
+        "style": "primary",
+        "action": {
+          "type": "message",
+          "label": "返回主選單",
+          "text": "主選單"
+        }
+      },
+    ]
+  },
+  "styles": {
+    "footer": {
+      "separator": True
+    }
+  }
+}
+
+first_favorite = {
+  "type": "bubble",
+  "hero": {
+    "type": "image",
+    "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_1_cafe.png",
+    "size": "full",
+    "aspectRatio": "20:13",
+    "aspectMode": "cover",
+    "action": {
+      "type": "uri",
+      "uri": "http://linecorp.com/"
+    }
+  },
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "Brown Cafe",
+        "weight": "bold",
+        "size": "xl",
+        "wrap":True,
+        "flex":1
+      },
+    ]
+  },
+  "footer": {
+    "type": "box",
+    "layout": "vertical",
+    "spacing": "sm",
+    "contents": [
+      {
+        "type": "box",
+        "layout": "baseline",
+        "margin": "md",
+        "contents": [
+          {
+            "type": "text",
+            "text": " ",
+            "size": "sm",
+            "color": "#999999",
+            "margin": "md",
+            "flex": 0
+          }
+        ]
+      },
+      {
+        "type": "button",
+        "action": {
+          "type": "message",
+          "label": "返回主選單",
+          "text": "主選單"
+        },
+        "height": "md",
+        "color": "#00cc66",
+        "style": "primary"
+      }
+    ],
+    "flex": 0
+  }
+}
+
+first_item = {
+  "type": "bubble",
+  "hero": {
+    "type": "image",
+    "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_1_cafe.png",
+    "size": "full",
+    "aspectRatio": "20:13",
+    "aspectMode": "cover",
+    "action": {
+      "type": "uri",
+      "uri": "http://linecorp.com/"
+    }
+  },
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "Brown Cafe",
+        "weight": "bold",
+        "size": "xl",
+        "wrap":True,
+        "flex":1
+      },
+    ]
+  },
+  "footer": {
+    "type": "box",
+    "layout": "vertical",
+    "spacing": "sm",
+    "contents": [
+      {
+        "type": "box",
+        "layout": "baseline",
+        "margin": "md",
+        "contents": [
+          {
+            "type": "text",
+            "text": " ",
+            "size": "sm",
+            "color": "#999999",
+            "margin": "md",
+            "flex": 0
+          }
+        ]
+      },
+      {
+        "type": "button",
+        "style": "primary",
+        "action": {
+          "type": "message",
+          "label": "返回重新輸入餐廳類別",
+          "text": "返回重新輸入餐廳類別"
+        }
+      },
+      {
+        "type" : "separator"
+      },
+      {
+        "type": "button",
+        "action": {
+          "type": "message",
+          "label": "返回主選單",
+          "text": "主選單"
+        },
+        "height": "md",
+        "color": "#00cc66",
+        "style": "primary"
+      }
+    ],
+    "flex": 0
+  }
+}

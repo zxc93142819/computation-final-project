@@ -12,37 +12,7 @@ from utils import send_text_message
 
 load_dotenv()
 
-
-machine = TocMachine(
-    states = [
-        "user", 
-        "menu",
-        "input_key",
-        "show_fsm_pic",
-        "search_restaurant",
-        "add_favorite",
-        "show_favorite",
-        "delete_favorite",
-        "introduction"],
-    transitions=[
-        {"trigger": "advance" , "source": "user" , "dest": "menu" , "conditions": "is_going_to_menu",},
-        {"trigger": "advance" , "source": "menu" , "dest": "menu" , "conditions": "is_going_to_menu",},
-        {"trigger": "advance" , "source": "menu" , "dest": "show_fsm_pic" , "conditions": "is_going_to_show_fsm_pic",},
-        {"trigger": "advance" , "source": "menu" , "dest": "input_key" , "conditions": "is_going_to_input_key",},
-        {"trigger": "advance" , "source": "input_key" , "dest": "search_restaurant" , "conditions": "is_going_to_search_restaurant",},
-        {"trigger": "advance" , "source": "menu" , "dest": "introduction" , "conditions": "is_going_to_introduction",},
-        # 加入我的最愛
-        {"trigger": "advance_postback" , "source": ["user" , "menu"] , "dest": "add_favorite" , "conditions": "is_going_to_add_favorite",},
-        # 查看最愛
-        {"trigger": "advance" , "source": ["user" , "menu"] , "dest" : "show_favorite" , "conditions": "is_going_to_show_favorite",},
-        # 刪除我的最愛
-        {"trigger": "advance_postback" , "source": ["user" , "menu"] , "dest": "delete_favorite" , "conditions": "is_going_to_delete_favorite",},
-        {"trigger": "go_back", "source": ["show_fsm_pic" , "search_restaurant", "introduction","add_favorite" , "show_favorite" , "delete_favorite",], "dest": "user"},
-    ],
-    initial="user",
-    auto_transitions=False,
-    show_conditions=True,
-)
+machine_dict = {}
 
 app = Flask(__name__, static_url_path="")
 
@@ -76,15 +46,63 @@ def webhook_handler():
     for event in events:
         enter = False
         enter_postback = False
+        if event.source.user_id not in machine_dict:
+            machine_dict[event.source.user_id] = TocMachine(
+                states = [
+                    "user", 
+                    "menu",
+                    "input_key",
+                    "show_fsm_pic",
+                    "search_restaurant",
+                    "add_favorite",
+                    "show_favorite",
+                    "delete_favorite",
+                    "introduction"],
+                transitions=[
+                    # 呼叫主選單
+                    {"trigger": "advance" , "source": "user" , "dest": "menu" , "conditions": "is_going_to_menu",},
+                    {"trigger": "advance" , "source": "menu" , "dest": "menu" , "conditions": "is_going_to_menu",},
+                    {"trigger": "advance" , "source": "introduction" , "dest": "menu" , "conditions": "is_going_to_menu",},
+                    {"trigger": "advance" , "source": "delete_favorite" , "dest": "menu" , "conditions": "is_going_to_menu",},
+                    {"trigger": "advance" , "source": "show_favorite" , "dest": "menu" , "conditions": "is_going_to_menu",},
+                    {"trigger": "advance" , "source": "add_favorite" , "dest": "menu" , "conditions": "is_going_to_menu",},
+                    {"trigger": "advance" , "source": "search_restaurant" , "dest": "menu" , "conditions": "is_going_to_menu",},
+                    {"trigger": "advance" , "source": "show_fsm_pic" , "dest": "menu" , "conditions": "is_going_to_menu",},
+                    
+                    {"trigger": "advance" , "source": "user" , "dest": "show_fsm_pic" , "conditions": "is_going_to_show_fsm_pic",},
+                    {"trigger": "advance" , "source": "menu" , "dest": "show_fsm_pic" , "conditions": "is_going_to_show_fsm_pic",},
+                    {"trigger": "advance" , "source": "menu" , "dest": "input_key" , "conditions": "is_going_to_input_key",},
+                    {"trigger": "advance" , "source": "input_key" , "dest": "search_restaurant" , "conditions": "is_going_to_search_restaurant",},
+                    {"trigger": "advance" , "source": "menu" , "dest": "introduction" , "conditions": "is_going_to_introduction",},
+                    # 回去重新輸入關鍵字
+                    {"trigger": "advance" , "source": "search_restaurant" , "dest": "input_key" , "conditions": "is_going_to_back_input_key",},
+                    
+                    # 加入我的最愛
+                    {"trigger": "advance_postback" , "source": ["user" , "menu" , "search_restaurant"] , "dest": "add_favorite" , "conditions": "is_going_to_add_favorite",},
+                    # 返回查詢結果
+                    {"trigger": "advance" , "source": "add_favorite" , "dest": "search_restaurant" , "conditions": "is_going_to_back_search_restaurant",},
+
+                    # 查看最愛
+                    {"trigger": "advance" , "source": ["user" , "menu"] , "dest" : "show_favorite" , "conditions": "is_going_to_show_favorite",},
+                    # 刪除我的最愛
+                    {"trigger": "advance_postback" , "source": ["user" , "menu" , "show_favorite"] , "dest": "delete_favorite" , "conditions": "is_going_to_delete_favorite",},
+                    # 返回我的最愛
+                    {"trigger": "advance" , "source": ["delete_favorite"] , "dest": "show_favorite" , "conditions": "is_going_to_back_show_favorite",},
+                ],
+                initial="user",
+                auto_transitions=False,
+                show_conditions=True,
+            )
+
         if isinstance(event, MessageEvent):
             if isinstance(event.message, TextMessage) and isinstance(event.message.text, str):
-                response = machine.advance(event)
+                response = machine_dict[event.source.user_id].advance(event)
                 enter = response
         elif isinstance(event, PostbackEvent):
             if isinstance(event.postback.data, str):
-                response = machine.advance_postback(event)
+                response = machine_dict[event.source.user_id].advance_postback(event)
                 enter_postback = response
-        print(f"\nFSM STATE: {machine.state}")
+        print(f"\nFSM STATE: {machine_dict[event.source.user_id].state}")
         print(f"REQUEST BODY: \n{body}")
         if enter == False:
             if enter_postback == False:
@@ -93,10 +111,11 @@ def webhook_handler():
     return "OK"
 
 
-@app.route("/show-fsm", methods=["GET"])
-def show_fsm():
-    machine.get_graph().draw("fsm.png", prog="dot", format="png")
-    return send_file("fsm.png", mimetype="image/png")
+# @app.route("/show-fsm", methods=["GET"])
+# def show_fsm():
+#     print("幹")
+#     machine_dict[event.source.user_id].get_graph().draw("fsm.png", prog="dot", format="png")
+#     return send_file("fsm.png", mimetype="image/png")
 
 
 if __name__ == "__main__":
